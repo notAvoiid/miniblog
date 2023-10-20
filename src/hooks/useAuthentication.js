@@ -28,19 +28,18 @@ export const useAuthentication = () => {
     checkIfIsCancelled();
 
     setLoading(true);
-    setError(null);
 
     try {
-
-      const {user} = await createUserWithEmailAndPassword(
+      const { user } = await createUserWithEmailAndPassword(
         auth,
         data.email,
         data.password
-      )
+      );
 
       await updateProfile(user, {
         displayName: data.displayName
-      })
+      });
+
       setLoading(false);
       return user;
 
@@ -68,6 +67,32 @@ export const useAuthentication = () => {
     signOut(auth);
   };
 
+  const login = async(data) => {
+    checkIfIsCancelled();
+
+    setLoading(true);
+    setError(false);
+
+    try {
+      await signInWithEmailAndPassword(auth, data.email, data.password);
+    } catch (error) {
+      console.log(error.message);
+      console.log(typeof error.message);
+
+      let systemErrorMessage;
+      
+      if (error.message.includes('invalid-login-credentials')) {
+        systemErrorMessage = 'Email/Senha estão incorretos.';
+      } else if(error.message.includes('auth/too-many-requests')) {
+        systemErrorMessage = 'Máximo de tentativas atingidas!';
+      } else {
+        systemErrorMessage = "Ocorreu um erro, por favor tenta mais tarde.";
+      }
+      setLoading(false);
+      setError(systemErrorMessage);
+    }
+  }
+
   useEffect(() => {
     return () => setCancelled(true);
   }, []);
@@ -78,5 +103,6 @@ export const useAuthentication = () => {
     error,
     loading,
     logout,
+    login,
   };
 };

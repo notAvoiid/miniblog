@@ -7,8 +7,8 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-
-  const { createUser, error: authError, loading } = useAuthentication();
+  
+  const { login, error: authError, loading } = useAuthentication();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,7 +20,7 @@ const Login = () => {
       password,
     };
     
-    const res = await createUser(user);
+    const res = await login(user);
 
     console.log(res);
   };
@@ -30,7 +30,6 @@ const Login = () => {
       setError(authError);
     }
   }, [authError])
-
 
   return (
     <div className={styles.login}>
@@ -44,8 +43,8 @@ const Login = () => {
             name='email' 
             required 
             placeholder='E-mail do usuario'
-            value={email}
             onChange={(e) => setEmail(e.target.value)}
+            value={email}
           />
         </label>
         <label>
@@ -54,8 +53,8 @@ const Login = () => {
             name='password' 
             required 
             placeholder='Insira sua senha'
-            value={password}
             onChange={(e) => setPassword(e.target.value)} 
+            value={password}
           />
         </label>
         {!loading && <button className='btn'>Entrar</button>}
