@@ -10,7 +10,7 @@ const Navbar = () => {
   const { user } = useAuthValue();
   const { logout } = useAuthentication();
 
-  return <nav className={styles.navbar}>
+  return (<nav className={styles.navbar}>
     <NavLink to='/' className={styles.brand} >
       Mini <span>Blog</span>
     </NavLink>
@@ -47,7 +47,7 @@ const Navbar = () => {
         </li>
       )}
     </ul>
-  </nav>
+  </nav>);
 };
 
 export default Navbar;
