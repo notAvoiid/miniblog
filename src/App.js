@@ -16,10 +16,10 @@ import CreatePost from './pages/Createpost/Createpost';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Search from './pages/Search/Search';
 import Post from './pages/Post/Post';
+import Editpost from './pages/EditPost/EditPost';
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-
 
 function App() {
   const [user, setUser] = useState(undefined);
@@ -38,7 +38,6 @@ function App() {
     return <p>Carregando...</p>;
   }
 
-
   return (
     <div className="App">
       <AuthProvider value={{ user }}>
@@ -52,6 +51,7 @@ function App() {
               <Route path='/posts/:id' element={<Post />} />
               <Route path='/login' element={!user ? <Login /> : <Navigate to='/'/>} />
               <Route path='/register' element={!user ? <Register /> : <Navigate to='/' />} />
+              <Route path='/posts/edit/:id' element={user ? <Editpost /> : <Navigate to='/' />} />
               <Route path='/posts/create' element={user ? <CreatePost /> : <Navigate to='/' />} />
               <Route path='/dashboard' element={user ? <Dashboard /> : <Navigate to='/' />} />
             </Routes>
